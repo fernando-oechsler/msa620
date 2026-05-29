@@ -10,7 +10,7 @@ set -e
 set -u
 
 # ----------- CONFIGURACOES --------------------------------------------------
-REPO_URL="https://github.com/SEU_USUARIO/msa620_services.git"
+REPO_URL="https://github.com/fernando-oechsler/msa620.git"
 SERVICES_DIR="/opt/msa620_services"
 USERNAME="msa620"
 SCREEN_WIDTH=800
