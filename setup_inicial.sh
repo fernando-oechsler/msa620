@@ -2,16 +2,16 @@
 # ============================================================================
 #  Setup Inicial MSA620 - Raspberry Pi 4
 #  Roda UMA VEZ num Pi OS Lite recem-instalado
-#  Instala pacotes, clona o repositorio de configuracoes
+#  Configura o sistema, clona o repo de configuracoes e aplica plymouth+service
+#  NAO mexe na aplicacao Python (isso vai por pendrive depois)
 # ============================================================================
 
 set -e
 set -u
 
 # ----------- CONFIGURACOES --------------------------------------------------
-REPO_URL="https://github.com/fernando-oechsler/msa620.git"
+REPO_URL="https://github.com/SEU_USUARIO/msa620_services.git"
 SERVICES_DIR="/opt/msa620_services"
-APP_DIR="/opt/msa620"
 USERNAME="msa620"
 SCREEN_WIDTH=800
 SCREEN_HEIGHT=480
@@ -131,14 +131,7 @@ EOF
 sudo systemctl set-default multi-user.target
 
 # ============================================================================
-# 7. Criar pasta da aplicacao
-# ============================================================================
-log "Criando $APP_DIR..."
-sudo mkdir -p "$APP_DIR"
-sudo chown -R "$USERNAME:$USERNAME" "$APP_DIR"
-
-# ============================================================================
-# 8. Clonar o repositorio de configuracoes
+# 7. Clonar o repositorio de configuracoes
 # ============================================================================
 log "Clonando configuracoes em $SERVICES_DIR..."
 sudo mkdir -p "$SERVICES_DIR"
@@ -157,7 +150,7 @@ else
 fi
 
 # ============================================================================
-# 9. Executar o apply.sh do repositorio
+# 8. Executar o apply.sh do repositorio
 # ============================================================================
 if [ -f "$SERVICES_DIR/apply.sh" ]; then
     log "Executando apply.sh..."
@@ -169,14 +162,15 @@ fi
 
 echo ""
 echo -e "${GREEN}============================================================${NC}"
-echo -e "${GREEN}  Setup inicial concluido!${NC}"
+echo -e "${GREEN}  Setup do sistema concluido!${NC}"
 echo -e "${GREEN}============================================================${NC}"
 echo ""
-echo "Proximos passos:"
-echo "  1. Copiar codigo Python via pendrive para $APP_DIR"
-echo "  2. Criar venv:  python3 -m venv $APP_DIR/venv"
-echo "  3. Instalar deps:  $APP_DIR/venv/bin/pip install -r ..."
-echo "  4. Reiniciar:  sudo reboot"
+echo "Sistema preparado. Plymouth e service ja aplicados."
+echo ""
+echo "Proximos passos (manuais):"
+echo "  - Copiar codigo Python para /opt/msa620/ via pendrive"
+echo "  - Criar venv e instalar dependencias"
+echo "  - sudo reboot"
 echo ""
 echo "Para atualizar configuracoes futuras:"
 echo "  cd $SERVICES_DIR && git pull && ./apply.sh"
